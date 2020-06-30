@@ -1,0 +1,32 @@
+# 2020-06-30 总结
+
+## todoMVC 实例实现
+	- 熟悉云函数与数据库的交互方式，在实例中应用
+	- 熟悉 Vue 使用方式，在实例中应用
+	- 熟悉 CSS 样式表，在实例中应用
+
+	- CSS 相关：
+		- 样式可继承可覆盖
+		- 链接到错误样式的 html 组件不会被渲染
+		- componentName 样式名匹配所有 <componentName>
+		- .className 样式名匹配所有 class="className" 的 html 组件
+		- #componentId 样式名匹配 id 为 "componentId" 的 html 组件
+		- * 样式名匹配所有样式
+		- input[type="checkbox"] 匹配所有 type="checkbox" 的 <input>
+		- selecter: https://www.w3schools.com/cssref/css_selectors.asp
+
+
+## 遇到的问题
+	- D-code 系统相关：
+		- 前端
+			- D-code 系统渲染页面时不支持 给 html 组件赋 id
+				- html 组件间无法通过 id 关联
+				- CSS 样式无法通过 # 关键
+			- D-code 系统内的 CSS 样式要以 b- 开头
+		- 后端
+			- 云函数时中都需要先注册再使用
+			- 调用云函数 API 和对象方法时，注意参数和返回的类型
+			- debug 云函数时，@DebugUsecase.shim(fixture={...}) 能替换云函数的 event 参数
+	- Vue 相关：
+		- async 只能修饰函数不能修饰键值对，故声明函数尽量用 func_name() { } 代替 func_name: function() { }
+		- async 与 await 始终确保配对使用
