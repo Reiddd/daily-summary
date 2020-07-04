@@ -1,0 +1,68 @@
+# 2020-07-01 总结
+
+## 微信小程序 总结
+	- app.json：用来对微信小程序进行全局配置，决定页面文件的路径、窗口表现、设置网络超时时间、设置多 tab 等
+		- 全局设置文档：https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html
+	- 单个页面能拥有单独的 page.jspn ，会覆盖 app.json 的全局设置
+	- sitemap.json：配置小程序及其页面是否允许被微信索引
+		- 完整配置文档：https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/sitemap.html
+	- 场景值：描述用户进入小程序的路径
+		- 获取方式：
+			- 小程序： App 的 onLaunch 和 onShow，或wx.getLaunchOptionsSync 
+			- 对于小游戏： wx.getLaunchOptionsSync 和 wx.onShow 
+		- 场景值列表：https://developers.weixin.qq.com/miniprogram/dev/reference/scene-list.html
+	- app.js：调用 App 方法注册小程序实例，绑定生命周期回调函数、错误监听和页面不存在监听函数等
+		- App 方法完整文档：https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html
+		- 整个小程序只有一个 App 实例，全部页面共享
+		-  getApp 方法能获取全局唯一的 App 实例
+	- WXML / WXSS / WXS：微信版 html / CSS / js
+		- WXML 文档： https://developers.weixin.qq.com/miniprogram/dev/reference/wxml/
+		- WXS 文档：https://developers.weixin.qq.com/miniprogram/dev/reference/wxs/
+	- <view id="tapTest" data-hi="WeChat" bindtap="tapName"> Click me! </view>
+		- data-hi="WeChat" : 绑定 { 'hi': 'WeChat' }
+		- bindtap="tapName"
+	- wxml: <input name="input" bindinput="handleInput" placeholder="please input here" />
+	- js: handleInput(e){ this.setData({name:e.detail.value}) }
+	- wxml: {{ name }}
+
+
+## 担路小程序 总结
+	- wjs：同时支持 Vue 组件与小程序组件，是 Vue 与小程序的交集
+		- dw：全局 API 代理，避免 this 绑定问题
+			- 文档：https://dcode.phyng.com/frontend/jsdoc/dw.html
+		- 事件管理器：
+			-相关函数
+				- app.event.on("eventName", func)
+				- app.event.emit("eventName", paras)
+				- app.event.removeListener("eventName", func)
+			- 注意事项：
+				- dw.event 只在当前组件内生效
+				- 事件监听器需要再合适时机手动销毁
+
+## 简易商城小程序 实现规划
+	- 后端部分：
+		- 数据集：
+			- product（产品）
+				- id
+				- name 
+				- description
+				- price
+				- stock (int 库存)
+				- onsale (bool 在售)
+				- image
+				- category_uuid -> category
+			- category（产品分类）
+				- name
+				- category_uuid -> category
+			- ordering（订单）
+				- id
+				- price
+				- remark
+				- state (select 订单状态)
+				- order_time（datetime 下单时间）
+				- customer_name
+				- telenum
+				- delivery_address
+				- product_uuid -> product
+		- 云函数：
+			- 3 张数据表各自的基础增删改差
